@@ -1,6 +1,7 @@
 function onOpen(e) {
   SpreadsheetApp.getUi().createMenu('AUTOMATION')
     .addItem('Get Data', 'goods')
+    .addItem('Create PDF', 'master')
     .addToUi()
 }
 
@@ -79,12 +80,12 @@ function onEdit(e) {
     }
   }
   else if (sheetName === e.source.getActiveSheet().getName() && row === 68 && col === 10) {
-    SpreadsheetApp.getUi().alert('Done')
+    // SpreadsheetApp.getUi().alert('Done')
     for (i = 0; i < 1; i++) {
       for (j = 0; j < signsheet.length; j++) {
         if (signform == signsheet[j][8]) {
           signset.setValue(signsheet[j][0])
-          SpreadsheetApp.getUi().alert('SET')
+          // SpreadsheetApp.getUi().alert('SET')
         }
       }
     }

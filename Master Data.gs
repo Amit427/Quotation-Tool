@@ -20,11 +20,16 @@ var mastersheet = masterData.getRange(2,1,masterData.getLastRow(),21).getValues(
 
 
 function master(){
+  var pdf = getPDF("Form",68)
+  var folderID  = setting.getRange('B3').getValue() //fetch from setting
+  try{
+    pdf.moveTo(DriveApp.getFolderById(folderID));
+  }catch(e){Logger.log(e.stack);}
   goodsdata.forEach(e=>e.unshift(...data))
   // Logger.log(goodsdata)
-  goodsdata.forEach(e=>e.push(...data2))
+  goodsdata.forEach(e=>e.push(...data2,pdf))
   // Logger.log(goodsdata)
-masterData.getRange(masterData.getLastRow()+1,1,goodsdata.length,21).setValues(goodsdata)
+masterData.getRange(masterData.getLastRow()+1,1,goodsdata.length,22).setValues(goodsdata)
 formSheet.getRange('C14:G53').clearContent()
 }
 
