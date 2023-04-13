@@ -1,9 +1,15 @@
 var goodsdata = editFormSheet.getRange('C14:H53')
+
 function editQuot(){
 
+var quotRef = setting.getRange("B1").getValue();
+var counter = setting.getRange("B2").getValue()
+
 var masterData = ss.getSheetByName('Master') 
-var editId = editFormSheet.getRange('H6').getValue()
-var newId = ""
+var editId = editFormSheet.getRange('J6').getValue()
+var newId = quotRef+(counter+1)
+
+editFormSheet.getRange('H6').setValue(newId)
 var partname = editFormSheet.getRange('C4')
 var partadd = editFormSheet.getRange('C5')
 var partadd2 = editFormSheet.getRange('C6')
@@ -40,7 +46,6 @@ var des = []
 descript.forEach(e=>des.push([e[9],e[10],e[11],e[12],e[13],e[14]]))  
 Logger.log(des)
 editFormSheet.getRange(14,3,des.length,des[0].length).setValues(des)
-
 }
 
 
@@ -53,7 +58,7 @@ var newid = setting.getRange('B1').getValue()
 var newid1 = setting.getRange('B2').getValue()+1
 var newId = (newid + newid1)
 var masterData = ss.getSheetByName('Master') 
-var id = editFormSheet.getRange('H6').getValue()
+var id = editFormSheet.getRange('J6').getValue()
 var newId = newid+newid1
 var previoId = id
 var status = 'New'
@@ -73,10 +78,11 @@ var data = [newId,previoId,status,time,partname,partadd,partadd2,quotDate]
 var data2 = [gst,gstAmount,totalAmount,remark,terms,sign]
 var mastersheet = masterData.getRange(2,1,masterData.getLastRow(),21).getValues().filter(f=>f[0] == id)
 
-  var pdf = getPDF("Edit Form",68)
-  var folderID  = setting.getRange('B3').getValue() //fetch from setting
+ var pdfId = getPDF("Form",68)[1];
+  var pdf = getPDF("Form",68)[0];
+    var folderID  = setting.getRange('B3').getValue() //fetch from setting
   try{
-    pdf.moveTo(DriveApp.getFolderById(folderID));
+  DriveApp.getFileById(pdfId).moveTo(DriveApp.getFolderById(folderID));
   }catch(e){Logger.log(e.stack);}
   goodsdata.forEach(e=>e.unshift(...data))
   // Logger.log(goodsdata)
@@ -84,5 +90,9 @@ var mastersheet = masterData.getRange(2,1,masterData.getLastRow(),21).getValues(
   // Logger.log(goodsdata)
 masterData.getRange(masterData.getLastRow()+1,1,goodsdata.length,22).setValues(goodsdata)
 editFormSheet.getRange('C14:G53').clearContent()
+setting.getRange('B2').setValue(newid1)
 }
+
+
+
 

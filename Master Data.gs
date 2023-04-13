@@ -13,22 +13,27 @@ var totalAmount = formSheet.getRange('H57').getValue()
 var remark = formSheet.getRange('C55').getValue()
 var terms = formSheet.getRange('B66').getValue()
 var sign = formSheet.getRange('B68').getValue()
-var goodsdata = formSheet.getRange('B14:H53').getValues().filter(f=>f[2]!="")
+
 var data = [id,previoId,status,time,partname,partadd,partadd2,quotDate]
 var data2 = [gst,gstAmount,totalAmount,remark,term,sign]
 var mastersheet = masterData.getRange(2,1,masterData.getLastRow(),21).getValues().filter(f=>f[0] == id)
 
 
 function master(){
-  var pdf = getPDF("Form",68)
+  var pdfId = getPDF("Form",68)[1];
+  var pdf = getPDF("Form",68)[0];
+  
   var folderID  = setting.getRange('B3').getValue() //fetch from setting
   try{
-    pdf.moveTo(DriveApp.getFolderById(folderID));
+    DriveApp.getFileById(pdfId).moveTo(DriveApp.getFolderById(folderID));
   }catch(e){Logger.log(e.stack);}
+ 
+ let goodsdata = formSheet.getRange('B14:H53').getValues().filter(f=>f[2]!="")
+  Logger.log(goodsdata)
   goodsdata.forEach(e=>e.unshift(...data))
-  // Logger.log(goodsdata)
+   Logger.log(goodsdata)
   goodsdata.forEach(e=>e.push(...data2,pdf))
-  // Logger.log(goodsdata)
+   Logger.log(goodsdata)
 masterData.getRange(masterData.getLastRow()+1,1,goodsdata.length,22).setValues(goodsdata)
 formSheet.getRange('C14:G53').clearContent()
 }

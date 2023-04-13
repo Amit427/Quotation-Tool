@@ -1,7 +1,10 @@
 function onOpen(e) {
   SpreadsheetApp.getUi().createMenu('AUTOMATION')
-    .addItem('Get Data', 'goods')
+    .addItem('Get Data in Form', 'goods')
     .addItem('Create PDF', 'master')
+    .addSeparator()
+    .addItem('Edit Quotation Data', 'editQuot')
+    .addItem('Create Edit Quotation','editmaster')
     .addToUi()
 }
 
