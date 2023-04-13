@@ -6,7 +6,7 @@ function getPDF(sheetName,lastRow){
   var file = DriveApp.createFile(pdfBlob);
    var fileUrl = file.getUrl();
    var fileId = file.getId()
-  Logger.log(fileURl);
-  return [fileURl,fileId];
+  Logger.log(fileUrl);
+  return [fileUrl,fileId];
 }
 

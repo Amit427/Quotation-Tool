@@ -52,7 +52,7 @@ function goods() {
   }
   var quot = quotRef + (counter + 1)
   reference.setValue(quot)
-  setting.getRange('B2').setValue(counter + 1)
+  
 }
 
 var termForm = formSheet.getRange('J66').getValue()
