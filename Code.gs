@@ -51,8 +51,7 @@ function goods() {
     }
   }
   var quot = quotRef + (counter + 1)
-  reference.setValue(quot)
-  
+  reference.setValue(quot) 
 }
 
 var termForm = formSheet.getRange('J66').getValue()
@@ -68,40 +67,50 @@ var signset = formSheet.getRange('B68')
 function onEdit(e) {
   var ss = SpreadsheetApp.getActive()
   var sheetName = "Form";
+  var sheetName1 = "Edit Form";
   var range = e.range;
   var sheet = range.getSheet();
   var row = e.range.getRow();
   var col = e.range.getColumn();
-  if (sheetName === e.source.getActiveSheet().getName() && row === 66 && col === 10) {
 
-    for (i = 0; i < 1; i++) {
-      for (j = 0; j < term.length; j++) {
-        if (termForm == term[j][12]) {
-          termset.setValue(term[j][0])
-        }
-      }
-    }
+  if (sheetName === e.source.getActiveSheet().getName() && col == 4 && row >= 14 && row <= 53 ) {
+    goods()
   }
-  else if (sheetName === e.source.getActiveSheet().getName() && row === 68 && col === 10) {
-    // SpreadsheetApp.getUi().alert('Done')
-    for (i = 0; i < 1; i++) {
-      for (j = 0; j < signsheet.length; j++) {
-        if (signform == signsheet[j][8]) {
-          signset.setValue(signsheet[j][0])
-          // SpreadsheetApp.getUi().alert('SET')
-        }
-      }
-    }
-  }
-
-
  if (sheetName === e.source.getActiveSheet().getName() && row === 4 && col === 3){
    goods()
  }
-
+ if (sheetName1 === e.source.getActiveSheet().getName() && row === 6 && col === 10){
+ editQuot()
+ }
 }
 
 
+function reset(){
 
+  formSheet.getRange('J6').setFormula('=IFNA(VLOOKUP(C4,\'Customer Master\'!A2:R,18),"")')
+    formSheet.getRange('H14').setValue('=ARRAYFORMULA(IF(G14:G53="","",G14:G53*E14:E53))')
+  // editFormSheet.getRange('H14').setValue('=ARRAYFORMULA(IF(G14:G53="","",G14:G53*E14:E53))')
+  formSheet.getRange('H6').setValue('=TODAY()')
+  formSheet.getRange('G55').setValue('=if(sum(G14:G53)=0,"",sum(G14:G53))')
+  editFormSheet.getRange('G55').setValue('=if(sum(G14:G53)=0,"",sum(G14:G53))')
+  formSheet.getRange('H55').setValue('=sum(H14:H53)')
+  editFormSheet.getRange('H55').setValue('=sum(H14:H53)')
+  formSheet.getRange('H56').setValue('=if(H55="", "", H55*G56)')
+  formSheet.getRange('H57').setValue('=ROUND(H55+H56)')
+  editFormSheet.getRange('H57').setValue('=ROUND(H55+H56)')
+  formSheet.getRange('D57').setValue('=if(INR(H57)="Rupees Zero Only","",INR(H57))')
+  editFormSheet.getRange('D57').setValue('=if(INR(H57)="Rupees Zero Only","",INR(H57))')
+  var formula = '=IF(C4="","",IF(J66=\'Terms and Conditions\'!M15,\'Terms and Conditions\'!A15,""))';
+  formSheet.getRange('B65').setValue(formula)
+  editFormSheet.getRange('B65').setValue(formula)
+  var formula1 = '=IFS(C4="","",J66=\'Terms and Conditions\'!M1,\'Terms and Conditions\'!A1,J66=\'Terms and Conditions\'!M15,\'Terms and Conditions\'!A17,J66=\'Terms and Conditions\'!M29,\'Terms and Conditions\'!A29,J66=\'Terms and Conditions\'!M39,\'Terms and Conditions\'!A39,J66=\'Terms and Conditions\'!M50,\'Terms and Conditions\'!A50,J66=\'Terms and Conditions\'!M57,\'Terms and Conditions\'!A57)						'
+  formSheet.getRange('B66').setValue(formula1)
+  editFormSheet.getRange('B66').setValue(formula1)
+  var formula2 = '=IFS(C4="","",J68=Signature!I1,Signature!A1,J68=Signature!I8,Signature!A8,J68=Signature!I16,Signature!A16,J68=Signature!I23,Signature!A23,J68=Signature!I30,Signature!A30,J68=Signature!I37,Signature!A37,J68=Signature!I44,Signature!A44)'
+  formSheet.getRange('B68').setValue(formula2)
+  editFormSheet.getRange('B68').setValue(formula2)
+  editFormSheet.getRange('J4').setFormula('=IFNA(VLOOKUP(C4,\'Customer Master\'!A2:R,18),"")')
+
+}
 
 
