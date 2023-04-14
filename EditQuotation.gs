@@ -83,7 +83,7 @@ function editmaster() {
   var goodsdata = editFormSheet.getRange('B14:H53').getValues().filter(f => f[2] != "")
   var data = [newId, previoId, status, time, partname, partadd, partadd2, quotDate]
   var data2 = [gst, gstAmount, totalAmount, remark, terms, sign]
-  var myData = masterData.getRange(2, 1, masterData.getLastRow(), 21).getValues()
+  var myData = masterData.getRange(2, 1, masterData.getLastRow()-1, 21).getValues()
   var mastersheet = myData.filter(f => f[0] == id)
   var pdfId = getPDF("Edit Form", 68)[1];
   var pdf = getPDF("Edit Form", 68)[0];
@@ -101,9 +101,9 @@ function editmaster() {
   clearEditForm()
 }
 
-function resetPreviousNo(id, newId, myData, masterData) {
+function resetPreviousNo(preId, newId, myData, masterData) {
   myData.forEach((r, i) => {
-    if (r[1] == id) {
+    if (r[0] == preId) {
       masterData.getRange(i + 2, 3).setValue('Inactive');
     }
   })
